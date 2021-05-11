@@ -222,5 +222,4 @@ void ls() {
 
 void help() {
     printf("Hilf do selbo i bin zi lost\n");
-    printf("Hilfe:\n nix holt bin lost");
 }
