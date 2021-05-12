@@ -33,6 +33,8 @@ void rmdr(char *token);
 
 void echo(char *token);
 
+void cp(char *token, int i);
+
 int main() {
     printf("Wilkommen in der Shell\n");
     mainMenu();
@@ -79,33 +81,69 @@ void mainMenu() {
         } else if (strcmp(input, "rm") == 0) {
             while (token != NULL) {
                 token = strtok(NULL, s);
-                if(token!=NULL){
+                if (token != NULL) {
                     rm(token);
                 }
             }
-        }else if (strcmp(input, "mkdir") == 0) {
+        } else if (strcmp(input, "mkdir") == 0) {
             while (token != NULL) {
                 token = strtok(NULL, s);
-                if(token!=NULL){
+                if (token != NULL) {
                     mkdr(token);
                 }
             }
         } else if (strcmp(input, "rmdir") == 0) {
             while (token != NULL) {
                 token = strtok(NULL, s);
-                if(token!=NULL){
+                if (token != NULL) {
                     rmdr(token);
                 }
             }
-        }else if (strcmp(input, "echo") == 0) {
+        } else if (strcmp(input, "echo") == 0) {
             while (token != NULL) {
                 token = strtok(NULL, "'");
-                if(token!=NULL){
+                if (token != NULL) {
                     echo(token);
                 }
             }
-        }else {
-            printf("Befehl gibs net du hurensohn\n");
+        } else if (strcmp(input, "cp") == 0) {
+            int i = 0;
+            while (token != NULL && i < 2) {
+                token = strtok(NULL, s);
+                if (token != NULL) {
+                    cp(token, i);
+                    i++;
+                }
+            }
+        } else {
+            printf("Befehl gibs net du hurensohn, deine Mutter isch a nette Frau!\n");
+        }
+    }
+}
+
+void cp(char *token, int i) {
+    FILE *fp;
+    FILE *fp2;
+    char *token2;
+    char buffer[100];
+
+    if (i == 0) {
+        token2 = token;
+    } else if (i < 2) {
+        fp = fopen(token2, "r");
+        if (fp == NULL) {
+            perror("fopen");
+        } else {
+            fp2 = fopen(token, "w");
+            if (fp2 == NULL) {
+                perror("fopen");
+            } else {
+                while (fgets(buffer, 100, fp) != NULL) {
+                    fputs(buffer, fp2);
+                }
+                fclose(fp2);
+            }
+            fclose(fp);
         }
     }
 }
@@ -115,25 +153,25 @@ void echo(char *token) {
 }
 
 void rmdr(char *token) {
-    if((rmdir(token))!=-1){
+    if ((rmdir(token)) != -1) {
         printf("Folgender Ordner wurde geloescht: %s\n", token);
-    }else{
+    } else {
         perror("Fehler beim löschen des Ordners\n");
     }
 }
 
 void mkdr(char *token) {
-    if((mkdir(token))!=-1){
+    if ((mkdir(token)) != -1) {
         printf("Folgender Ordner wurde erstellt: %s\n", token);
-    }else{
+    } else {
         perror("Fehler beim erstellen des Ordners\n");
     }
 }
 
 void rm(char *token) {
-    if((remove(token))!=-1){
+    if ((remove(token)) != -1) {
         printf("Folgende Datei wurde geloescht: %s\n", token);
-    }else{
+    } else {
         perror("Fehler beim Datei löschen\n");
     }
 }
@@ -196,7 +234,6 @@ void ls() {
     struct dirent *d;
     struct stat mystat;
     char cwd[PATH_MAX];
-
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         printf("Ordner: %s\n", cwd);
         p = opendir(cwd);
@@ -212,7 +249,6 @@ void ls() {
                 printf("\t%ld", mystat.st_size);
             }
             printf("\t");
-            //printf("%s\t",ctime(&mystat.st_mtime));
             printf("%s\n", d->d_name);
         }
     } else {

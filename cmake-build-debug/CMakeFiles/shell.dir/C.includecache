@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/marce/Documents/Informatik/C/shell/main.c
+stdio.h
+-
+string.h
+-
+dirent.h
+-
+unistd.h
+-
+limits.h
+-
+sys/stat.h
+-
+time.h
+-
+
