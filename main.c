@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <sys/stat.h>
-#include <time.h>
+#include <errno.h>
 
 
 void mainMenu();
@@ -34,6 +34,8 @@ void rmdr(char *token);
 void echo(char *token);
 
 void cp(char *token, int i);
+
+void mv(char *token, int i);
 
 int main() {
     printf("Wilkommen in der Shell\n");
@@ -115,8 +117,57 @@ void mainMenu() {
                     i++;
                 }
             }
+        } else if (strcmp(input, "mv") == 0) {
+            int i = 0;
+            while (token != NULL && i < 2) {
+                token = strtok(NULL, s);
+                if (token != NULL) {
+                    mv(token, i);
+                    i++;
+                }
+            }
+        } else if (strcmp(input, "settings") == 0) {
+            printf("\x1b[32mHello, World\n");
+            printf("\x1b[0m");
         } else {
             printf("Befehl gibs net du hurensohn, deine Mutter isch a nette Frau!\n");
+        }
+    }
+}
+
+void mv(char *token, int i) {
+    char *start;
+    char buffer[100];
+
+    if (i == 0) {
+        start = token;
+    } else if (i == 1) {
+        DIR *dir = opendir(start);
+        if (dir) {
+            printf("Ordner exestiert\n");
+            closedir(dir);
+        } else if (ENOENT == errno) {
+            perror("opendir");
+            printf("\n");
+        } else {
+            FILE *fp = fopen(start, "r");
+            if (fp == NULL) {
+                perror("fopen");
+                printf("\n");
+            } else {
+                FILE *fp2 = fopen(token, "w");
+                if (fp2 == NULL) {
+                    perror("fopen");
+                    printf("\n");
+                } else {
+                    while (fgets(buffer, 100, fp) != NULL) {
+                        fputs(buffer, fp2);
+                    }
+                    fclose(fp2);
+                    remove(start);
+                }
+            }
+            fclose(fp);
         }
     }
 }

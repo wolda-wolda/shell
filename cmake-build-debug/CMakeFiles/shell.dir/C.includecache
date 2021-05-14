@@ -19,6 +19,6 @@ limits.h
 -
 sys/stat.h
 -
-time.h
+errno.h
 -
 
