@@ -5,7 +5,26 @@
 #include <limits.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <stdlib.h>
 
+#ifdef _WIN32
+#define OSWindows 1
+#define OSLinux 0
+#elif __linux__
+#define OSLinux 1
+#define OSWindows 0
+#endif
+
+#define BLK "\e[0;30m"
+#define RED "\e[0;31m"
+#define GRN "\e[0;32m"
+#define YEL "\e[0;33m"
+#define BLU "\e[0;34m"
+#define MAG "\e[0;35m"
+#define CYN "\e[0;36m"
+#define WHT "\e[0;37m"
+#define reset "\e[0m"
+int temp;
 
 void mainMenu();
 
@@ -27,7 +46,7 @@ void pwd();
 
 void rm(char *token);
 
-void mkdr(char *token);
+void mkdr(char *token, int i);
 
 void rmdr(char *token);
 
@@ -37,7 +56,16 @@ void cp(char *token, int i);
 
 void mv(char *token, int i);
 
+void cmod(char *token, int i);
+
 int main() {
+#ifdef _WIN64
+    printf("Betriebssystem: Windows 64 bit\n");
+#elif _WIN32
+    printf(": Betriebssystem: Windows 32 bit\n");
+#elif __linux__
+    printf("Betriebssystem: Linux\n");
+#endif
     printf("Wilkommen in der Shell\n");
     mainMenu();
     return 0;
@@ -51,7 +79,14 @@ void mainMenu() {
 
     while (exit != 1) {
         printf(">");
-        gets(input);
+        fgets(input, 100, stdin);
+        fflush(stdin);
+        for (int i = 0; i < 100; ++i) {
+            if (input[i] == '\n') {
+                input[i] = '\000';
+                break;
+            }
+        }
         fflush(stdin);
         token = strtok(input, s);
         if (strcmp(input, "exit") == 0) {
@@ -65,12 +100,17 @@ void mainMenu() {
         } else if (strcmp(input, "cat") == 0) {
             while (token != NULL) {
                 token = strtok(NULL, s);
-                cat(token);
+                if (token != NULL) {
+                    cat(token);
+                }
             }
         } else if (strcmp(input, "touch") == 0) {
             while (token != NULL) {
                 token = strtok(NULL, s);
-                touch(token);
+                if (token != NULL) {
+                    touch(token);
+                }
+
             }
         } else if (strcmp(input, "cd") == 0) {
             while (token != NULL) {
@@ -88,10 +128,12 @@ void mainMenu() {
                 }
             }
         } else if (strcmp(input, "mkdir") == 0) {
+            int i = 0;
             while (token != NULL) {
                 token = strtok(NULL, s);
                 if (token != NULL) {
-                    mkdr(token);
+                    mkdr(token, i);
+                    i++;
                 }
             }
         } else if (strcmp(input, "rmdir") == 0) {
@@ -126,35 +168,115 @@ void mainMenu() {
                     i++;
                 }
             }
+        } else if (strcmp(input, "chmod") == 0) {
+            if (OSWindows != 1) {
+                int i = 0;
+                while (token != NULL && i < 2) {
+                    token = strtok(NULL, s);
+                    if (token != NULL) {
+                        cmod(token, i);
+                        i++;
+                    }
+                }
+            } else {
+                printf("Der chmod Befehl steht nur unter Linux zur Verfuegung");
+            }
         } else if (strcmp(input, "settings") == 0) {
-            printf("\x1b[32mHello, World\n");
-            printf("\x1b[0m");
+            char input[100];
+            printf("Welche Schriftfarbe möchten Sie?:\nSchwarz\nRot\nGruen\nGelb\nBlau\nMagenta\nCyan\nWeiß\nReset\n");
+            fgets(input, 100, stdin);
+            if (strcmp(input, "Schwarz\n") == 0) {
+                printf(BLK);
+            } else if (strcmp(input, "Rot\n") == 0) {
+                printf(RED);
+            } else if (strcmp(input, "Gruen\n") == 0) {
+                printf(GRN);
+            } else if (strcmp(input, "Gelb\n") == 0) {
+                printf(YEL);
+            } else if (strcmp(input, "Blau\n") == 0) {
+                printf(BLU);
+            } else if (strcmp(input, "Magenta\n") == 0) {
+                printf(MAG);
+            } else if (strcmp(input, "Cyan\n") == 0) {
+                printf(CYN);
+            } else if (strcmp(input, "Weiß\n") == 0) {
+                printf(WHT);
+            } else {
+                printf(reset);
+            }
         } else {
-            printf("Befehl gibs net du hurensohn, deine Mutter isch a nette Frau!\n");
+            printf(RED"Befehl exestiert nicht"reset"\n");
+        }
+    }
+}
+
+int convertChmodValue(int x) {
+    int ret = 0;
+
+    int values[] = {400, 200, 100, 40, 20, 10, 4, 2, 1};
+    int dez[] = {256, 128, 64, 32, 16, 8, 4, 2, 1};
+    int i;
+    for (i = 0; i < 9; i++) {
+        if (x - values[i] >= 0) {
+            x = x - values[i];
+            ret = ret + dez[i];
+        }
+    }
+
+    if (x == 0) {
+        return ret;
+    } else {
+        return -1;
+    }
+}
+
+void cmod(char *token, int i) {
+    if (i == 0) {
+        temp = atoi(token);
+    } else {
+        if (convertChmodValue(temp) != -1) {
+            temp = convertChmodValue(temp);
+            printf("%d", temp);
+            chmod(token, temp);
+            printf("Berechtigungen geändert\n");
+        } else {
+            printf("Falsche Zahlen\n");
         }
     }
 }
 
 void mv(char *token, int i) {
-    char *start;
     char buffer[100];
+    DIR *dir;
+    char *start;
 
     if (i == 0) {
         start = token;
     } else if (i == 1) {
-        DIR *dir = opendir(start);
+        dir = opendir(start);
         if (dir) {
-            printf("Ordner exestiert\n");
+            int ret = 0;
+            ret = rename(start, token);
+            if (ret != 0) {
+                perror("rename");
+            }
             closedir(dir);
         } else if (ENOENT == errno) {
             perror("opendir");
             printf("\n");
+            closedir(dir);
         } else {
             FILE *fp = fopen(start, "r");
             if (fp == NULL) {
                 perror("fopen");
                 printf("\n");
             } else {
+                dir = opendir(token);
+                if (dir) {
+                    strcat(token, start);
+                    closedir(dir);
+                } else if (ENOENT == errno) {
+                }
                 FILE *fp2 = fopen(token, "w");
                 if (fp2 == NULL) {
                     perror("fopen");
@@ -164,10 +286,10 @@ void mv(char *token, int i) {
                         fputs(buffer, fp2);
                     }
                     fclose(fp2);
+                    fclose(fp);
                     remove(start);
                 }
             }
-            fclose(fp);
         }
     }
 }
@@ -185,6 +307,7 @@ void cp(char *token, int i) {
         if (fp == NULL) {
             perror("fopen");
         } else {
+            strcat(token, token2);
             fp2 = fopen(token, "w");
             if (fp2 == NULL) {
                 perror("fopen");
@@ -211,12 +334,20 @@ void rmdr(char *token) {
     }
 }
 
-void mkdr(char *token) {
+void mkdr(char *token, int i) {
+#ifdef WIN32
     if ((mkdir(token)) != -1) {
         printf("Folgender Ordner wurde erstellt: %s\n", token);
     } else {
         perror("Fehler beim erstellen des Ordners\n");
     }
+#else
+    if((mkdir(token, 0777))!=-1){
+        printf("Folgender Ordner wurde erstellt: %s\n", token);
+    }else {
+        perror("Fehler beim erstellen des Ordners\n");
+        }
+#endif
 }
 
 void rm(char *token) {
