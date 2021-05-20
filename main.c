@@ -23,6 +23,16 @@
 #define MAG "\e[0;35m"
 #define CYN "\e[0;36m"
 #define WHT "\e[0;37m"
+
+#define BLKB "\e[40m"
+#define REDB "\e[41m"
+#define GRNB "\e[42m"
+#define YELB "\e[43m"
+#define BLUB "\e[44m"
+#define MAGB "\e[45m"
+#define CYNB "\e[46m"
+#define WHTB "\e[47m"
+
 #define reset "\e[0m"
 int temp;
 
@@ -201,6 +211,27 @@ void mainMenu() {
                 printf(CYN);
             } else if (strcmp(input, "Weiß\n") == 0) {
                 printf(WHT);
+            } else {
+                printf(reset);
+            }
+            printf("Welche Hintergrundfarbe möchten Sie?:\nSchwarz\nRot\nGruen\nGelb\nBlau\nMagenta\nCyan\nWeiß\nReset\n");
+            fgets(input, 100, stdin);
+            if (strcmp(input, "Schwarz\n") == 0) {
+                printf(BLKB);
+            } else if (strcmp(input, "Rot\n") == 0) {
+                printf(REDB);
+            } else if (strcmp(input, "Gruen\n") == 0) {
+                printf(GRNB);
+            } else if (strcmp(input, "Gelb\n") == 0) {
+                printf(YELB);
+            } else if (strcmp(input, "Blau\n") == 0) {
+                printf(BLUB);
+            } else if (strcmp(input, "Magenta\n") == 0) {
+                printf(MAGB);
+            } else if (strcmp(input, "Cyan\n") == 0) {
+                printf(CYNB);
+            } else if (strcmp(input, "Weiß\n") == 0) {
+                printf(WHTB);
             } else {
                 printf(reset);
             }
