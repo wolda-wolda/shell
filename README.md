@@ -35,14 +35,14 @@ gcc main.c -o Shell.out
 ls: Gibt den Inhalt des aktullen Ordners aus.
 
 #### cd
-cd Ordner oder .. : Wechselt das working directory zu den übergeben Parameter.
+cd Ordner oder .. : Wechselt das working directory zu den übergeben Ordner oder relativen/absoluten Pfad.
 
 #### cat
 cat Datei: Gibt den Inhalt der übergebenen Datei aus, es können auch mehrere Dateien übergeben werden.
 
 #### rm
-rm Datei: löscht die übergebenen Ordner oder Dateien. 
-Deshalb kein rmdir notwendig
+
+rm Datei: löscht die übergebenen Dateien.
 
 #### mv
 mv Datei/Ordner Zielordner/Zieldatei: Verschiebt die übergebene Datei/Ordner in den übergebenen Ordner oder bennent die Datei/Ordner um.
@@ -60,7 +60,9 @@ mkdir Ordner: Erstellt im aktuellen Ordner einen neuen Ordner. Wird ein relative
 pwd: Gibt den absoluten Pfad zum aktuellen Ordner an.
 
 #### chmod
-chmod 777 Ordner/Datei: Die Rechte der übergebenen Datei/Ordner wird geändert. Die Berechtigungne müssen als numerischer Code wie in Linux übergeben werden.
+
+chmod 777 Ordner/Datei: Die Rechte der übergebenen Datei/Ordner wird geändert. Die Berechtigungen müssen als numerischer
+Code wie in Linux übergeben werden.
 
 #### touch
 touch Datei: Erstellt im aktuellen Ordner eine Datei. Wird ein relativer Pfad übergeben z.B. ../Datei wird die Datei an diesem Ort erstellt, der Befehlt funktioniert auch mit Absoluten Pfaden sofern der Benutzer die Berechtigunen besitzt dort Dateien zu erstellen.
