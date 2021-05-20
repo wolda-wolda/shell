@@ -32,46 +32,44 @@ gcc main.c -o Shell.out
 ## Befehle
 
 #### ls
->ls: Gibt den Inhalt des aktullen Ordners aus.
+ls: Gibt den Inhalt des aktullen Ordners aus.
 
 #### cd
->cd PARAMETER: Wechselt das working directory zu den übergeben Parameter.
+cd Ordner oder .. : Wechselt das working directory zu den übergeben Parameter.
 
->cat
->>cat $$: gibt den Inhalt der übergebenen Datei aus.
+#### cat
+cat Datei: Gibt den Inhalt der übergebenen Datei aus, es können auch mehrere Dateien übergeben werden.
 
->rm
->>rm $$: löscht die übergebenen Ordner oder Dateien. 
+#### rm
+rm Datei: löscht die übergebenen Ordner oder Dateien. 
 Deshalb kein rmdir notwendig
 
->mv
->>mv $ $$: verschiebt die übergebene Dateien ($$) in den übergebenen Ordner ($)
+#### mv
+mv Datei/Ordner Zielordner/Zieldatei: Verschiebt die übergebene Datei/Ordner in den übergebenen Ordner oder bennent die Datei/Ordner um.
 
->cp
->>cp $ $$: kopiert den Inhalt der übergebene Dateien ($$) in die übergebene Datei ($). 
-Die Datei ($) wird überschrieben (nach Bestätigung des Benutzers) und falls noch nicht vorhanden wird sie erstellt. 
-Anstelle von einer Datei kann man auch einen Ordner ($) übergeben und die Dateien ($) dorthin kopieren. 
-Falls sich in diesem Ordner bereits eine Datei mit gleichen Name befindet wird sie überschrieben (nach Bestätigung des Benutzers).
+#### cp
+cp Datei Zielordner: Kopiert die übergebene Datei an denn übergebenen Zielordner. Falls die Datei schon exestiert wird sie überschrieben. 
 
->echo
->>echo $$: gibt den übergebene Text aus.
+#### echo
+echo Text: Gibt den übergebenen Text aus.
 
->mkdir
->>mkdir $: erstellt im current working directory einen Ordner.
+#### mkdir
+mkdir Ordner: Erstellt im aktuellen Ordner einen neuen Ordner. Wird ein relativer Pfad übergeben z.B. ../Ordner wird der Ordner an diesem Ort erstellt, der Befehlt funktioniert auch mit Absoluten Pfaden sofern der Benutzer die Berechtigunen besitzt dort Ordner zu erstellen.
 
->pwd
->>pwd: gibt das current working directory aus.
+#### pwd
+pwd: Gibt den absoluten Pfad zum aktuellen Ordner an.
 
->chmod
->>chmod $ $$: die Rechte der übergebene Dateinen und Ordner ($$) werden geändert. 
-$ muss ein numerischer Code sein mit der bereits in Linux bekannten Zahlenmethode.
+#### chmod
+chmod 777 Ordner/Datei: Die Rechte der übergebenen Datei/Ordner wird geändert. Die Berechtigungne müssen als numerischer Code wie in Linux übergeben werden.
 
->touch
->>touch $$: erstellt im current working directory Dateien ($$).
+#### touch
+touch Datei: Erstellt im aktuellen Ordner eine Datei. Wird ein relativer Pfad übergeben z.B. ../Datei wird die Datei an diesem Ort erstellt, der Befehlt funktioniert auch mit Absoluten Pfaden sofern der Benutzer die Berechtigunen besitzt dort Dateien zu erstellen.
 
->help
->>help ($$): listet alle Befehle mit kurzer Beschreibung auf. 
-Falls Parameter übergeben werden, wird nur die Beschreibung dieser Befehler aufgelistet.
+#### help
+help: Listet alle verfügbaren Befehle auf mit Beschreibung wie hier.
 
->exit
->>exit: beendet die Shell
+#### settings
+settings: Eingener Befehl der denn Benutzer die Farben der Ausgabe ändern lässt.
+
+#### exit
+exit: Beendet die Shell wer hätte sich das gedacht.
