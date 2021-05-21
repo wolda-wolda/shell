@@ -1,3 +1,5 @@
+https://github.com/wolda-wolda/shell.git
+
 # Walder Marcel - Shell
 
 
@@ -23,7 +25,7 @@ REG ADD HKCU\CONSOLE /f /v VirtualTerminalLevel /t REG_DWORD /d 1
 
 ```bash
 gcc main.c -o Shell.out
-./Shell.out
+sudo ./Shell.out
 ```
 
 ------------
