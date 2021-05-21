@@ -82,6 +82,14 @@ settings: Eingener Befehl der denn Benutzer die Farben der Ausgabe ändern läss
 
 whoami: Zeigt denn aktullen Benutzer.
 
+#### shutdown
+
+shutdown: PC herunterfahren.
+
+#### reboot\n
+
+reboot: PC neustarten.
+
 #### exit
 
 exit: Beendet die Shell wer hätte sich das gedacht.

@@ -70,6 +70,10 @@ void cmod(char *token, int i);
 
 void whoami();
 
+void shutdown();
+
+void reboot();
+
 int main() {
 #ifdef _WIN64
     printf("Betriebssystem: Windows 64 bit\n");
@@ -195,6 +199,10 @@ void mainMenu() {
             }
         } else if (strcmp(input, "whoami") == 0) {
             whoami();
+        } else if (strcmp(input, "shutdown") == 0) {
+            shutdown();
+        } else if (strcmp(input, "reboot") == 0) {
+            reboot();
         } else if (strcmp(input, "settings") == 0) {
             char input[100];
             printf("Welche Schriftfarbe möchten Sie?:\nSchwarz\nRot\nGruen\nGelb\nBlau\nMagenta\nCyan\nWeiß\nReset\n");
@@ -242,6 +250,34 @@ void mainMenu() {
         } else {
             printf(RED"Befehl exestiert nicht"reset"\n");
         }
+    }
+}
+
+void reboot() {
+    char st;
+    printf("Möchten Sie ihren PC neustarten?(y/n):\n");
+    scanf("%c", &st);
+    if (st == 'y' || st == 'Y') {
+#ifdef _WIN32
+        system("c:\\windows\\system32\\shutdown /r");
+        system("pause");
+#else
+        system("shutdown -r");
+#endif
+    }
+}
+
+void shutdown() {
+    char st;
+    printf("Möchten Sie ihren PC herunterfahren?(y/n):\n");
+    scanf("%c", &st);
+    if (st == 'y' || st == 'Y') {
+#ifdef _WIN32
+        system("c:\\windows\\system32\\shutdown /s");
+        system("pause");
+#else
+        system("shutdown -h");
+#endif
     }
 }
 
@@ -529,6 +565,12 @@ void help() {
            "\n"
            "whoami\n"
            "whoami: Zeigt den aktullen Benutzer.\n"
+           "\n"
+           "shutdown\n"
+           "shutdown: PC herunterfahren.\n"
+           "\n"
+           "reboot\n"
+           "reboot: PC neustarten.\n"
            "\n"
            "exit\n"
            "exit: Beendet die Shell wer haette sich das gedacht.");
