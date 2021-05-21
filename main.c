@@ -68,6 +68,8 @@ void mv(char *token, int i);
 
 void cmod(char *token, int i);
 
+void whoami();
+
 int main() {
 #ifdef _WIN64
     printf("Betriebssystem: Windows 64 bit\n");
@@ -191,6 +193,8 @@ void mainMenu() {
             } else {
                 printf("Der chmod Befehl steht nur unter Linux zur Verfuegung");
             }
+        } else if (strcmp(input, "whoami") == 0) {
+            whoami();
         } else if (strcmp(input, "settings") == 0) {
             char input[100];
             printf("Welche Schriftfarbe möchten Sie?:\nSchwarz\nRot\nGruen\nGelb\nBlau\nMagenta\nCyan\nWeiß\nReset\n");
@@ -239,6 +243,20 @@ void mainMenu() {
             printf(RED"Befehl exestiert nicht"reset"\n");
         }
     }
+}
+
+void whoami() {
+#ifdef _WIN32
+    char *user = getenv("USERNAME");
+    if (user == NULL)
+        printf("Kein Benutzername\n");
+    printf("Du bist: %s\n", user);
+#else
+    char *user = getlogin();
+    if (user == NULL)
+        printf("Kein Benutzername\n");
+    printf("Du bist: %s\n", user);
+#endif
 }
 
 int convertChmodValue(int x) {
@@ -508,6 +526,9 @@ void help() {
            "\n"
            "settings\n"
            "settings: Eingener Befehl der denn Benutzer die Farben der Ausgabe aendern laesst.\n"
+           "\n"
+           "whoami\n"
+           "whoami: Zeigt den aktullen Benutzer.\n"
            "\n"
            "exit\n"
            "exit: Beendet die Shell wer haette sich das gedacht.");

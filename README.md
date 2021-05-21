@@ -65,13 +65,23 @@ chmod 777 Ordner/Datei: Die Rechte der übergebenen Datei/Ordner wird geändert.
 Code wie in Linux übergeben werden.
 
 #### touch
-touch Datei: Erstellt im aktuellen Ordner eine Datei. Wird ein relativer Pfad übergeben z.B. ../Datei wird die Datei an diesem Ort erstellt, der Befehlt funktioniert auch mit Absoluten Pfaden sofern der Benutzer die Berechtigunen besitzt dort Dateien zu erstellen.
+
+touch Datei: Erstellt im aktuellen Ordner eine Datei. Wird ein relativer Pfad übergeben z.B. ../Datei wird die Datei an
+diesem Ort erstellt, der Befehlt funktioniert auch mit Absoluten Pfaden sofern der Benutzer die Berechtigunen besitzt
+dort Dateien zu erstellen.
 
 #### help
+
 help: Listet alle verfügbaren Befehle auf mit Beschreibung wie hier.
 
 #### settings
+
 settings: Eingener Befehl der denn Benutzer die Farben der Ausgabe ändern lässt.
 
+#### whoami
+
+whoami: Zeigt denn aktullen Benutzer.
+
 #### exit
+
 exit: Beendet die Shell wer hätte sich das gedacht.
