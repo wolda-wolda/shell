@@ -201,8 +201,10 @@ void mainMenu() {
             whoami();
         } else if (strcmp(input, "shutdown") == 0) {
             shutdown();
+            exit = 1;
         } else if (strcmp(input, "reboot") == 0) {
             reboot();
+            exit = 1;
         } else if (strcmp(input, "settings") == 0) {
             char input[100];
             printf("Welche Schriftfarbe möchten Sie?:\nSchwarz\nRot\nGruen\nGelb\nBlau\nMagenta\nCyan\nWeiß\nReset\n");
@@ -260,7 +262,6 @@ void reboot() {
     if (st == 'y' || st == 'Y') {
 #ifdef _WIN32
         system("c:\\windows\\system32\\shutdown /r");
-        system("pause");
 #else
         system("shutdown -r");
 #endif
@@ -274,7 +275,6 @@ void shutdown() {
     if (st == 'y' || st == 'Y') {
 #ifdef _WIN32
         system("c:\\windows\\system32\\shutdown /s");
-        system("pause");
 #else
         system("shutdown -h");
 #endif
@@ -462,6 +462,7 @@ void cd(char *token) {
 }
 
 int beenden() {
+    printf("Die Shell wird geschlossen");
     return 1;
 }
 
