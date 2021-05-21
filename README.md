@@ -88,7 +88,7 @@ whoami: Zeigt denn aktullen Benutzer.
 
 shutdown: PC herunterfahren.
 
-#### reboot\n
+#### reboot
 
 reboot: PC neustarten.
 
